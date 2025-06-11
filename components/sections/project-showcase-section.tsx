@@ -17,7 +17,7 @@ export function ProjectShowcaseSection() {
   }; 
 
   const projectImages = [
-    { src: '/images/ostra-brama-project-photos/Garden+View+1_(1)_compressed.webp', alt: 'Ostra Brama front elevation showing contemporary design' },
+    { src: '/images/ostra-brama-project-photos/Garden-View-1-compressed.webp', alt: 'Ostra Brama garden and landscaping' },
     { src: '/images/ostra-brama-project-photos/Front+View+1_compressed.webp', alt: 'Ostra Brama garden and landscaping' },
     { src: '/images/ostra-brama-project-photos/Living+Room+View_compressed.webp', alt: 'Ostra Brama living room interior' },
     { src: '/images/ostra-brama-project-photos/Principle+Suite_compressed.webp', alt: 'Ostra Brama principle suite bedroom' },
