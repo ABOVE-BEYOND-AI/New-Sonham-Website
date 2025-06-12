@@ -90,7 +90,7 @@ export function HeroSection() {
                     </div>
                   </Link>
 
-                  <h1 className="mx-auto text-balance text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.25rem] text-white font-light tracking-tight leading-[1.1] mb-6 sm:mb-8">
+                  <h1 className="mx-auto text-balance text-5xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.25rem] text-white font-light tracking-tight leading-[1.1] mb-6 sm:mb-8">
                     The Sonham Standard
                   </h1>
                 </AnimatedGroup>
@@ -302,8 +302,14 @@ const HeroHeader = () => {
                 aria-label={menuState == true ? "Close Menu" : "Open Menu"}
                 className="relative z-20 -m-2.5 -mr-4 block cursor-pointer p-2.5 lg:hidden"
               >
-                <Menu className="in-data-[state=active]:rotate-180 group-data-[state=active]:scale-0 group-data-[state=active]:opacity-0 m-auto size-6 duration-200" />
-                <X className="group-data-[state=active]:rotate-0 group-data-[state=active]:scale-100 group-data-[state=active]:opacity-100 absolute inset-0 m-auto size-6 -rotate-180 scale-0 opacity-0 duration-200" />
+                <Menu className={cn(
+                  "in-data-[state=active]:rotate-180 group-data-[state=active]:scale-0 group-data-[state=active]:opacity-0 m-auto size-6 duration-200",
+                  isScrolled ? "text-charcoal" : "text-white"
+                )} />
+                <X className={cn(
+                  "group-data-[state=active]:rotate-0 group-data-[state=active]:scale-100 group-data-[state=active]:opacity-100 absolute inset-0 m-auto size-6 -rotate-180 scale-0 opacity-0 duration-200",
+                  isScrolled ? "text-charcoal" : "text-white"
+                )} />
               </button>
             </div>
 
@@ -325,17 +331,14 @@ const HeroHeader = () => {
               </ul>
             </div>
 
-            <div className="bg-background group-data-[state=active]:block lg:group-data-[state=active]:flex mb-6 hidden w-full flex-wrap items-center justify-end space-y-8 rounded-3xl border p-6 shadow-2xl shadow-zinc-300/20 md:flex-nowrap lg:m-0 lg:flex lg:w-fit lg:gap-6 lg:space-y-0 lg:border-transparent lg:bg-transparent lg:p-0 lg:shadow-none dark:shadow-none dark:lg:bg-transparent">
+            <div className="group-data-[state=active]:block lg:group-data-[state=active]:flex mb-6 hidden w-full flex-wrap items-center justify-end space-y-8 rounded-3xl border p-6 shadow-2xl shadow-zinc-300/20 bg-white md:flex-nowrap lg:m-0 lg:flex lg:w-fit lg:gap-6 lg:space-y-0 lg:border-transparent lg:bg-transparent lg:p-0 lg:shadow-none dark:shadow-none dark:lg:bg-transparent">
               <div className="lg:hidden">
-                <ul className="space-y-6 text-base">
+                <ul className="space-y-6 text-base text-right">
                   {menuItems.map((item, index) => (
                     <li key={index}>
                       <Link
                         href={item.href}
-                        className={cn(
-                          "block duration-150",
-                          isScrolled ? "text-charcoal/80 hover:text-charcoal" : "text-white/80 hover:text-white",
-                        )}
+                        className="block duration-150 text-charcoal/80 hover:text-charcoal"
                       >
                         <span>{item.name}</span>
                       </Link>
@@ -343,15 +346,28 @@ const HeroHeader = () => {
                   ))}
                 </ul>
               </div>
-              <div className="flex w-full flex-col space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
+              <div className="flex w-full flex-col items-center space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
+                <Button
+                  asChild
+                  size="sm"
+                  variant="default"
+                  className="bg-charcoal text-white hover:bg-charcoal/90 lg:hidden"
+                >
+                  <Link href="#contact">
+                    <span>Bring your Vision to Life</span>
+                  </Link>
+                </Button>
                 <Button
                   asChild
                   size="sm"
                   variant={isScrolled ? "default" : "secondary"}
-                  className={cn(!isScrolled && "bg-white text-charcoal hover:bg-white/90")}
+                  className={cn(
+                    !isScrolled && "bg-white text-charcoal hover:bg-white/90",
+                    "hidden h-auto py-2 lg:block",
+                  )}
                 >
                   <Link href="#contact">
-                    <span>Get Started</span>
+                    Get Started
                   </Link>
                 </Button>
               </div>

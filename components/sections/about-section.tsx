@@ -4,7 +4,7 @@ import { motion } from "framer-motion"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import Link from "next/link"
-import { MapPin, Users } from "lucide-react"
+import { MapPin } from "lucide-react"
 import { TextGradientScroll } from "@/components/ui/text-gradient-scroll"
 
 const fadeInUp = {
@@ -36,10 +36,10 @@ export function AboutSection() {
           className="mb-8 md:mb-12 text-center"
         >
           <div className="hover:bg-white/20 bg-white/10 group mx-auto flex w-fit items-center gap-3 rounded-full border border-gray-200 p-1 pl-4 shadow-md shadow-black/5 transition-all duration-300 mb-6">
-            <Users className="w-4 h-4 text-gray-600" />
+            <Image src="/images/sonham-logo.svg" alt="Sonham logo" width={16} height={16} className="w-4 h-4" />
             <span className="text-gray-600 text-sm font-medium pr-3">Who we are</span>
           </div>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-black tracking-tight">About Us</h2>
+          <h2 className="text-5xl md:text-5xl lg:text-6xl font-bold text-black tracking-tight">About Us</h2>
         </motion.div>
 
         {/* Main Content - Centered with Scroll Effect */}
@@ -55,7 +55,7 @@ export function AboutSection() {
         </div>
 
         {/* Two Column Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 mb-24">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 mb-12 md:mb-24">
           {/* Left Column - Featured Image */}
           <motion.div
             initial="initial"
@@ -64,7 +64,7 @@ export function AboutSection() {
             variants={fadeInUp}
             className="order-2 lg:order-1"
           >
-            <div className="h-full relative overflow-hidden rounded-2xl" style={{ clipPath: 'polygon(15% 0%, 100% 0%, 100% 85%, 85% 100%, 0% 100%, 0% 15%)' }}>
+            <div className="h-96 md:h-full relative overflow-hidden rounded-2xl" style={{ clipPath: 'polygon(15% 0%, 100% 0%, 100% 85%, 85% 100%, 0% 100%, 0% 15%)' }}>
               <Image
                 src="/images/sonham-about-house.webp"
                 alt="Modern contemporary home designed and built by Sonham Group"

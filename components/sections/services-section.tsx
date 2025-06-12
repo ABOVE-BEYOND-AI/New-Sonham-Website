@@ -4,7 +4,7 @@ import type React from "react"
 
 import { motion } from "framer-motion"
 import Image from "next/image"
-import { Calendar, Home, FileText, Building, Calculator, Hammer, Warehouse, Briefcase } from "lucide-react"
+import { Calendar, Home, FileText, Building, Calculator, Hammer, Warehouse, House } from "lucide-react"
 import { cn } from "@/lib/utils"
 
 const fadeInUp = {
@@ -60,7 +60,7 @@ const services = [
     title: "Cost Estimating & Budgeting",
     description:
       "With access to the best materials at competitive prices, we keep your costs down without compromising on quality",
-    backgroundImage: "/images/cost-estimating.webp",
+    backgroundImage: "/images/Sonham Group New Website (2)_compressed.webp",
   },
   {
     id: 5,
@@ -100,10 +100,10 @@ export function ServicesSection() {
           className="mb-12 text-center"
         >
           <div className="hover:bg-white/20 bg-white/10 group mx-auto flex w-fit items-center gap-3 rounded-full border border-gray-200 p-1 pl-4 shadow-md shadow-black/5 transition-all duration-300 mb-6">
-            <Briefcase className="w-4 h-4 text-gray-600" />
+            <House className="w-4 h-4 text-gray-600" />
             <span className="text-gray-600 text-sm font-medium pr-3">Services</span>
           </div>
-          <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-black tracking-tight mb-4">What We Offer</h2>
+          <h2 className="text-5xl md:text-5xl lg:text-6xl font-bold text-black tracking-tight mb-4">What We Offer</h2>
           <p className="text-lg text-black/70 max-w-3xl mx-auto">
             No matter the size or complexity of your project, Sonham Group is equipped to guide you from concept to
             completion. Our services include:
@@ -111,7 +111,7 @@ export function ServicesSection() {
         </motion.div>
 
         {/* Bento Grid Layout */}
-        <div className="grid grid-cols-4 md:grid-cols-9 grid-rows-[repeat(12,minmax(140px,auto))] md:grid-rows-[repeat(8,minmax(120px,auto))] gap-3 md:gap-4">
+        <div className="grid grid-cols-4 md:grid-cols-9 grid-rows-[repeat(12,minmax(140px,auto))] md:grid-rows-[repeat(8,minmax(120px,auto))] gap-4 md:gap-6">
           {/* Full Project Management */}
           <ServiceCard
             service={services[0]}
@@ -201,9 +201,8 @@ function ServiceCard({ service, className, useDefaultPadding = false, useExtende
       initial="initial"
       whileInView="animate"
       viewport={{ once: true, margin: "-50px" }}
-      whileHover={{ backgroundColor: "#f9fafb", transition: { duration: 0.2 } }}
       variants={animationVariant}
-      className={`relative overflow-hidden rounded-2xl bg-gray-50 group border border-gray-200 ${className}`}
+      className={`relative overflow-hidden rounded-2xl bg-gray-50 group border border-gray-100 ${className}`}
       style={{ willChange: 'transform, opacity' }}
     >
       {/* Background Image - Right-aligned with left fade */}
@@ -225,16 +224,16 @@ function ServiceCard({ service, className, useDefaultPadding = false, useExtende
       <div
         className={cn(
           "relative z-10 h-full p-4 md:p-5 flex flex-col justify-end",
-          useDefaultPadding ? "pr-16 md:pr-20" : useMaxPadding ? "pr-52 md:pr-60" : useExtendedPadding ? "pr-36 md:pr-44" : "pr-28 md:pr-36",
+          "pr-16 md:" + (useDefaultPadding ? "pr-20" : useMaxPadding ? "pr-60" : useExtendedPadding ? "pr-44" : "pr-36"),
         )}
       >
         <div className="mb-2">
           <Icon className="w-6 h-6 text-black" strokeWidth={1.5} />
         </div>
-        <h3 className="font-jakarta text-xl md:text-2xl font-bold text-black mb-1 leading-tight tracking-tight">
+        <h3 className="font-jakarta text-2xl md:text-2xl font-bold text-black mb-1 leading-tight tracking-tight">
           {service.title}
         </h3>
-        <p className="font-jakarta text-xs md:text-sm text-black/70 leading-relaxed font-normal">
+        <p className="font-jakarta text-sm md:text-sm text-black/70 leading-relaxed font-normal">
           {service.description}
         </p>
       </div>

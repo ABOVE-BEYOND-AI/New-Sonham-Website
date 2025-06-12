@@ -3,7 +3,7 @@
 import { motion } from "framer-motion"
 import Image from "next/image"
 import { useState } from "react"
-import { X, Camera } from "lucide-react"
+import { X, Layers } from "lucide-react"
 
 const projects = [
   {
@@ -12,88 +12,103 @@ const projects = [
     description: "Contemporary new build with sustainable features",
     images: [
       {
-        src: "/placeholder.svg?height=600&width=800&text=Project+1+Image+1",
+        src: "/images/project-1/image4_compressed.webp",
+        alt: "Modern family home garden view",
+      },
+      {
+        src: "/images/project-1/image0_compressed.webp",
         alt: "Modern family home exterior view",
       },
       {
-        src: "/placeholder.svg?height=600&width=800&text=Project+1+Image+2",
+        src: "/images/project-1/image1_compressed.webp",
         alt: "Modern family home interior living space",
       },
       {
-        src: "/placeholder.svg?height=600&width=800&text=Project+1+Image+3",
+        src: "/images/project-1/image3_compressed.webp",
         alt: "Modern family home kitchen design",
-      },
-      {
-        src: "/placeholder.svg?height=600&width=800&text=Project+1+Image+4",
-        alt: "Modern family home garden view",
       },
     ],
   },
   {
     id: 2,
-    title: "Heritage Restoration",
-    description: "Complete restoration of Victorian townhouse",
+    title: "New Build Development",
+    description: "Construction of modern residential homes from foundation to completion",
     images: [
       {
-        src: "/placeholder.svg?height=600&width=800&text=Project+2+Image+1",
+        src: "/images/project-2/image0.webp",
         alt: "Heritage restoration exterior",
       },
       {
-        src: "/placeholder.svg?height=600&width=800&text=Project+2+Image+2",
+        src: "/images/project-2/image1.webp",
         alt: "Heritage restoration period features",
       },
       {
-        src: "/placeholder.svg?height=600&width=800&text=Project+2+Image+3",
+        src: "/images/project-2/image2.webp",
         alt: "Heritage restoration modern kitchen",
       },
       {
-        src: "/placeholder.svg?height=600&width=800&text=Project+2+Image+4",
+        src: "/images/project-2/image3.webp",
         alt: "Heritage restoration bathroom",
       },
       {
-        src: "/placeholder.svg?height=600&width=800&text=Project+2+Image+5",
+        src: "/images/project-2/image4.webp",
         alt: "Heritage restoration living room",
       },
       {
-        src: "/placeholder.svg?height=600&width=800&text=Project+2+Image+6",
+        src: "/images/project-2/image5.webp",
         alt: "Heritage restoration master bedroom",
       },
     ],
   },
   {
     id: 3,
-    title: "Contemporary Extension",
-    description: "Glass and steel extension to period property",
+    title: "Period Property Renovation",
+    description: "Sympathetic renovation and modernisation of traditional homes",
     images: [
       {
-        src: "/placeholder.svg?height=600&width=800&text=Project+3+Image+1",
+        src: "/images/project-3/plot_3_(1)_upscaled_compressed.webp",
         alt: "Contemporary extension exterior",
       },
       {
-        src: "/placeholder.svg?height=600&width=800&text=Project+3+Image+2",
-        alt: "Contemporary extension interior",
+        src: "/images/project-3/plot_3_rear_upscaled_compressed.webp",
+        alt: "Contemporary extension rear view",
       },
     ],
   },
   {
     id: 4,
-    title: "Luxury Garden Room",
-    description: "Bespoke garden office and entertainment space",
+    title: "Modern Townhouse Development",
+    description: "Collection of contemporary new build homes with modern design",
     images: [
       {
-        src: "/placeholder.svg?height=600&width=800&text=Project+4+Image+1",
+        src: "/images/project4_compressed.webp",
         alt: "Luxury garden room",
       },
     ],
   },
   {
     id: 5,
-    title: "Commercial Refurbishment",
-    description: "Office space transformation for modern business",
+    title: "Bell House, Henham",
+    description: "Architectural plans for contemporary residential development",
     images: [
       {
-        src: "/placeholder.svg?height=600&width=800&text=Project+5+Image+1",
-        alt: "Commercial refurbishment",
+        src: "/images/Sonham Group New Website_compressed.webp",
+        alt: "Bell House architectural plan view 1",
+      },
+      {
+        src: "/images/Sonham Group New Website (1)_compressed.webp",
+        alt: "Bell House architectural plan view 2",
+      },
+    ],
+  },
+  {
+    id: 6,
+    title: "Residential Development",
+    description: "Modern block of flats with contemporary design",
+    images: [
+      {
+        src: "/images/St.andrews_Street_IMG_2057_3_large-1_upscaled_compressed.webp",
+        alt: "Modern residential block of flats",
       },
     ],
   },
@@ -114,7 +129,6 @@ const projectVariants = {
     opacity: 1,
     y: 0,
   },
-  transition: { duration: 0.6, ease: "easeOut" },
 }
 
 const imageVariants = {
@@ -123,7 +137,6 @@ const imageVariants = {
     opacity: 1,
     scale: 1,
   },
-  transition: { duration: 0.6, ease: "easeOut" },
 }
 
 export function GallerySection() {
@@ -140,22 +153,22 @@ export function GallerySection() {
             variants={{
               initial: { opacity: 0, y: 20 },
               animate: { opacity: 1, y: 0 },
-              transition: { duration: 0.6, ease: "easeOut" },
             }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
             className="text-center mb-16"
           >
             <div className="hover:bg-white/20 bg-white/10 group mx-auto flex w-fit items-center gap-3 rounded-full border border-gray-200 p-1 pl-4 shadow-md shadow-black/5 transition-all duration-300 mb-6">
-              <Camera className="w-4 h-4 text-gray-600" />
+              <Layers className="w-4 h-4 text-gray-600" />
               <span className="text-gray-600 text-sm font-medium pr-3">Gallery</span>
             </div>
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-bold text-black tracking-tight mb-6">Our Work</h2>
+            <h2 className="text-5xl md:text-5xl lg:text-6xl font-bold text-black tracking-tight mb-6">Our Work</h2>
             <p className="text-lg text-black/70 max-w-2xl mx-auto">
               Take a look at just a few of the many successful projects we've completed for our valued clients
             </p>
           </motion.div>
 
           {/* Projects */}
-          <div className="space-y-16">
+          <div className="space-y-24 md:space-y-28 lg:space-y-32">
             {projects.map((project, projectIndex) => (
               <motion.div
                 key={project.id}
@@ -163,6 +176,7 @@ export function GallerySection() {
                 whileInView="animate"
                 viewport={{ once: true, margin: "-100px" }}
                 variants={projectVariants}
+                transition={{ duration: 0.6, ease: "easeOut" }}
                 className="space-y-6"
               >
                 {/* Project Header */}
@@ -174,36 +188,103 @@ export function GallerySection() {
                 {/* Project Images Grid */}
                 <motion.div
                   variants={containerVariants}
-                  className={`grid gap-4 ${
-                    project.images.length === 1
-                      ? "grid-cols-1 max-w-md mx-auto"
-                      : project.images.length === 2
-                      ? "grid-cols-1 sm:grid-cols-2 max-w-4xl mx-auto"
-                      : project.images.length === 4
-                      ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-4"
-                      : "grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
-                  }`}
+                  className="grid gap-4"
                 >
-                  {project.images.map((image, imageIndex) => (
+                  {project.images.length === 1 ? (
+                    // Single Image - Large Hero Layout
                     <motion.div
-                      key={imageIndex}
                       variants={imageVariants}
+                      transition={{ duration: 0.6, ease: "easeOut" }}
                       whileHover={{ scale: 1.02 }}
-                      className="relative rounded-2xl overflow-hidden shadow-lg cursor-pointer group"
-                      onClick={() => setSelectedImage({ projectIndex, imageIndex })}
+                      className="relative rounded-2xl overflow-hidden shadow-lg cursor-pointer group max-w-4xl mx-auto"
+                      onClick={() => setSelectedImage({ projectIndex, imageIndex: 0 })}
                     >
                       <Image
-                        src={image.src || "/placeholder.svg"}
-                        alt={image.alt}
-                        width={800}
+                        src={project.images[0].src || "/placeholder.svg"}
+                        alt={project.images[0].alt}
+                        width={1200}
                         height={600}
-                        className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105"
-                        priority={projectIndex === 0 && imageIndex === 0}
-                        loading={projectIndex === 0 && imageIndex === 0 ? "eager" : "lazy"}
+                        className="w-full h-80 md:h-96 object-cover transition-transform duration-300 group-hover:scale-105"
+                        priority={projectIndex === 0}
+                        loading={projectIndex === 0 ? "eager" : "lazy"}
                       />
                       <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
                     </motion.div>
-                  ))}
+                  ) : project.images.length === 2 ? (
+                    // Two Images - Side by Side Large
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 max-w-6xl mx-auto">
+                      {project.images.map((image, imageIndex) => (
+                        <motion.div
+                          key={imageIndex}
+                          variants={imageVariants}
+                          transition={{ duration: 0.6, ease: "easeOut" }}
+                          whileHover={{ scale: 1.02 }}
+                          className="relative rounded-2xl overflow-hidden shadow-lg cursor-pointer group"
+                          onClick={() => setSelectedImage({ projectIndex, imageIndex })}
+                        >
+                          <Image
+                            src={image.src || "/placeholder.svg"}
+                            alt={image.alt}
+                            width={800}
+                            height={600}
+                            className="w-full h-72 md:h-80 object-cover transition-transform duration-300 group-hover:scale-105"
+                            priority={projectIndex === 0 && imageIndex === 0}
+                            loading={projectIndex === 0 && imageIndex === 0 ? "eager" : "lazy"}
+                          />
+                          <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
+                        </motion.div>
+                      ))}
+                    </div>
+                  ) : (
+                                        // 3+ Images - Featured Layout (First image large, others smaller)
+                     <div className="space-y-4">
+                       {/* Hero Image */}
+                       <motion.div
+                         variants={imageVariants}
+                         transition={{ duration: 0.6, ease: "easeOut" }}
+                         whileHover={{ scale: 1.02 }}
+                         className="relative rounded-2xl overflow-hidden shadow-lg cursor-pointer group max-w-4xl mx-auto"
+                         onClick={() => setSelectedImage({ projectIndex, imageIndex: 0 })}
+                       >
+                         <Image
+                           src={project.images[0].src || "/placeholder.svg"}
+                           alt={project.images[0].alt}
+                           width={1200}
+                           height={600}
+                           className="w-full h-64 md:h-72 lg:h-80 object-cover transition-transform duration-300 group-hover:scale-105"
+                           priority={projectIndex === 0}
+                           loading={projectIndex === 0 ? "eager" : "lazy"}
+                         />
+                         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors duration-300" />
+                       </motion.div>
+                       
+                       {/* Supporting Images Grid */}
+                       {project.images.length > 1 && (
+                         <div className="grid grid-cols-3 gap-4 max-w-4xl mx-auto">
+                           {project.images.slice(1).map((image, imageIndex) => (
+                             <motion.div
+                               key={imageIndex + 1}
+                               variants={imageVariants}
+                               transition={{ duration: 0.6, ease: "easeOut", delay: (imageIndex + 1) * 0.1 }}
+                               whileHover={{ scale: 1.05 }}
+                               className="relative rounded-xl overflow-hidden shadow-md cursor-pointer group"
+                               onClick={() => setSelectedImage({ projectIndex, imageIndex: imageIndex + 1 })}
+                             >
+                               <Image
+                                 src={image.src || "/placeholder.svg"}
+                                 alt={image.alt}
+                                 width={400}
+                                 height={300}
+                                 className="w-full h-48 md:h-52 object-cover transition-transform duration-300 group-hover:scale-110"
+                                 loading="lazy"
+                               />
+                               <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-colors duration-300" />
+                             </motion.div>
+                           ))}
+                         </div>
+                       )}
+                    </div>
+                  )}
                 </motion.div>
               </motion.div>
             ))}
