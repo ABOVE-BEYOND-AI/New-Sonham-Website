@@ -93,7 +93,7 @@ export function HeroSection() {
                     </div>
                   </Link>
 
-                  <h1 className="mx-auto text-balance text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.25rem] text-white font-light tracking-tight leading-[1.1] mb-6 sm:mb-8">
+                  <h1 className="mx-auto text-balance text-[2.75rem] sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.25rem] text-white font-light tracking-tight leading-[1.1] mb-6 sm:mb-8">
                     The Sonham Standard
                   </h1>
                 </AnimatedGroup>
