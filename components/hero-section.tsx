@@ -298,35 +298,47 @@ const HeroHeader = () => {
       document.body.style.overflow = 'unset'
     }
   }, [menuState])
+
   return (
     <header>
-      <nav data-state={menuState && "active"} className="fixed z-20 w-full px-2 group">
+      <nav
+        data-state={menuState ? "active" : "inactive"}
+        className={cn(
+          "fixed w-full px-2 group transition-all duration-300",
+          menuState ? "z-40" : "z-20"
+        )}
+      >
         <div
           className={cn(
             "mx-auto mt-2 max-w-6xl px-6 transition-all duration-300 lg:px-12",
-            isScrolled && "bg-background/50 max-w-4xl rounded-2xl backdrop-blur-lg lg:px-5",
-            showBorder && "border",
+            isScrolled && !menuState && "bg-background/50 max-w-4xl rounded-2xl backdrop-blur-lg lg:px-5",
+            showBorder && !menuState && "border"
           )}
         >
           <div className="relative flex flex-wrap items-center justify-between gap-6 py-3 lg:gap-0 lg:py-4">
             <div className="flex w-full justify-between lg:w-auto">
               <Link href="/" aria-label="home" className="flex items-center space-x-2">
-                <Logo isScrolled={isScrolled} />
+                <Logo isScrolled={isScrolled} isMenuOpen={menuState} />
               </Link>
 
               <button
                 onClick={() => setMenuState(!menuState)}
-                aria-label={menuState == true ? "Close Menu" : "Open Menu"}
-                className="relative z-50 -m-2.5 -mr-4 block cursor-pointer p-2.5 lg:hidden"
+                aria-label={menuState ? "Close Menu" : "Open Menu"}
+                className="relative h-6 w-6 lg:hidden"
               >
-                <Menu className={cn(
-                  "in-data-[state=active]:rotate-180 group-data-[state=active]:scale-0 group-data-[state=active]:opacity-0 m-auto size-6 duration-200",
-                  isScrolled ? "text-charcoal" : "text-white"
-                )} />
-                <X className={cn(
-                  "group-data-[state=active]:rotate-0 group-data-[state=active]:scale-100 group-data-[state=active]:opacity-100 absolute inset-0 m-auto size-6 -rotate-180 scale-0 opacity-0 duration-200",
-                  menuState ? "text-white" : isScrolled ? "text-charcoal" : "text-white"
-                )} />
+                <Menu
+                  className={cn(
+                    "absolute inset-0 m-auto size-6 transition-all duration-300",
+                    menuState ? "opacity-0 scale-90 rotate-180" : "opacity-100 scale-100 rotate-0",
+                    isScrolled && !menuState ? "text-charcoal" : "text-white"
+                  )}
+                />
+                <X
+                  className={cn(
+                    "absolute inset-0 m-auto size-6 text-white transition-all duration-300",
+                    menuState ? "opacity-100 scale-100 rotate-0" : "opacity-0 scale-90 -rotate-180"
+                  )}
+                />
               </button>
             </div>
 
@@ -348,87 +360,6 @@ const HeroHeader = () => {
               </ul>
             </div>
 
-            {/* Modern Full-Screen Mobile Menu */}
-            <div className={cn(
-              "fixed inset-0 z-40 transform transition-all duration-500 ease-out lg:hidden",
-              menuState ? "translate-x-0 opacity-100" : "translate-x-full opacity-0 pointer-events-none"
-            )}>
-              {/* Background with blur */}
-              <div className="absolute inset-0 bg-black/95 backdrop-blur-md" />
-              
-              {/* Menu Content */}
-              <div className="relative h-full flex flex-col justify-between p-8 pt-24">
-                {/* Navigation Links */}
-                <div className="space-y-8">
-                  {menuItems.map((item, index) => (
-                    <div key={index} className="overflow-hidden">
-                      <Link
-                        href={item.href}
-                        onClick={() => setMenuState(false)}
-                        className={cn(
-                          "block text-white text-4xl font-light tracking-tight hover:text-white/80 transition-all duration-300",
-                          "transform transition-transform duration-700 ease-out",
-                          menuState ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"
-                        )}
-                        style={{
-                          transitionDelay: menuState ? `${(index + 1) * 100}ms` : `${(menuItems.length - index) * 50}ms`
-                        }}
-                      >
-                        {item.name}
-                      </Link>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Contact Section */}
-                <div className={cn(
-                  "space-y-6 transform transition-all duration-700 ease-out",
-                  menuState ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"
-                )}
-                style={{
-                  transitionDelay: menuState ? "400ms" : "0ms"
-                }}>
-                  {/* Primary CTA */}
-                  <Button
-                    asChild
-                    size="lg"
-                    className="w-full bg-white text-black hover:bg-white/90 text-lg py-6 rounded-xl font-medium"
-                  >
-                    <Link href="#contact" onClick={() => setMenuState(false)}>
-                      Bring Your Vision to Life
-                    </Link>
-                  </Button>
-
-                  {/* Contact Info */}
-                  <div className="space-y-3 text-white/70">
-                    <div className="flex items-center gap-3">
-                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
-                      </svg>
-                      <a href="tel:+443308084344" className="text-sm hover:text-white transition-colors">
-                        0330 808 4344
-                      </a>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-                        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-                      </svg>
-                      <a href="mailto:hello@sonhamgroup.co.uk" className="text-sm hover:text-white transition-colors">
-                        hello@sonhamgroup.co.uk
-                      </a>
-                    </div>
-                    <div className="flex items-center gap-3">
-                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-                        <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
-                      </svg>
-                      <span className="text-sm">Essex • Cambridgeshire • Suffolk • Hertfordshire</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-
             {/* Desktop Menu (unchanged) */}
             <div className="hidden lg:flex lg:w-fit lg:gap-6">
               <Button
@@ -448,11 +379,92 @@ const HeroHeader = () => {
           </div>
         </div>
       </nav>
+      
+      {/* Modern Full-Screen Mobile Menu - Outside header for consistent positioning */}
+      <div className={cn(
+        "fixed inset-0 z-30 transform transition-all duration-500 ease-out lg:hidden",
+        menuState ? "translate-x-0 opacity-100" : "translate-x-full opacity-0 pointer-events-none"
+      )}>
+        {/* Background with blur */}
+        <div className="absolute inset-0 bg-black/95 backdrop-blur-md" />
+        
+        {/* Menu Content */}
+        <div className="relative h-full flex flex-col justify-between p-8 pt-24">
+          {/* Navigation Links */}
+          <div className="space-y-8">
+            {menuItems.map((item, index) => (
+              <div key={index} className="overflow-hidden">
+                <Link
+                  href={item.href}
+                  onClick={() => setMenuState(false)}
+                  className={cn(
+                    "block text-white text-4xl font-light tracking-tight hover:text-white/80 transition-all duration-300",
+                    "transform transition-transform duration-700 ease-out",
+                    menuState ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"
+                  )}
+                  style={{
+                    transitionDelay: menuState ? `${(index + 1) * 100}ms` : `${(menuItems.length - index) * 50}ms`
+                  }}
+                >
+                  {item.name}
+                </Link>
+              </div>
+            ))}
+          </div>
+
+          {/* Contact Section */}
+          <div className={cn(
+            "space-y-6 transform transition-all duration-700 ease-out",
+            menuState ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"
+          )}
+          style={{
+            transitionDelay: menuState ? "400ms" : "0ms"
+          }}>
+            {/* Primary CTA */}
+            <Button
+              asChild
+              size="lg"
+              className="w-full bg-white text-black hover:bg-white/90 text-lg py-6 rounded-xl font-medium"
+            >
+              <Link href="#contact" onClick={() => setMenuState(false)}>
+                Bring Your Vision to Life
+              </Link>
+            </Button>
+
+            {/* Contact Info */}
+            <div className="space-y-3 text-white/70">
+              <div className="flex items-center gap-3">
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                </svg>
+                <a href="tel:+443308084344" className="text-sm hover:text-white transition-colors">
+                  0330 808 4344
+                </a>
+              </div>
+              <div className="flex items-center gap-3">
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                  <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                </svg>
+                <a href="mailto:hello@sonhamgroup.co.uk" className="text-sm hover:text-white transition-colors">
+                  hello@sonhamgroup.co.uk
+                </a>
+              </div>
+              <div className="flex items-center gap-3">
+                <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                  <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                </svg>
+                <span className="text-sm">Essex • Cambridgeshire • Suffolk • Hertfordshire</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </header>
   )
 }
 
-const Logo = ({ className, isScrolled }: { className?: string; isScrolled?: boolean }) => {
+const Logo = ({ className, isScrolled, isMenuOpen }: { className?: string; isScrolled?: boolean; isMenuOpen?: boolean }) => {
   return (
     <div className="flex items-center space-x-3">
       <svg
@@ -472,7 +484,7 @@ const Logo = ({ className, isScrolled }: { className?: string; isScrolled?: bool
         </defs>
         <g clipPath="url(#ad3e2eabf8)">
           <path
-            fill={isScrolled ? "#1A1A1A" : "white"}
+            fill={isScrolled && !isMenuOpen ? "#1A1A1A" : "white"}
             d="M 12.574219 140.777344 L 194.046875 13.839844 L 371.644531 139.808594 L 324.035156 171.292969 L 195.464844 77.765625 L 100.25 143.027344 L 221.6875 229.207031 L 178.449219 259.765625 Z M 12.574219 140.777344 "
             fillOpacity="1"
             fillRule="nonzero"
@@ -480,7 +492,7 @@ const Logo = ({ className, isScrolled }: { className?: string; isScrolled?: bool
         </g>
         <g clipPath="url(#70d1a18b51)">
           <path
-            fill={isScrolled ? "#1A1A1A" : "white"}
+            fill={isScrolled && !isMenuOpen ? "#1A1A1A" : "white"}
             d="M 362.429688 236.9375 L 178.914062 360.90625 L 3.394531 232.066406 L 51.507812 201.363281 L 178.535156 296.96875 L 274.804688 233.261719 L 154.785156 145.125 L 198.515625 115.265625 Z M 362.429688 236.9375 "
             fillOpacity="1"
             fillRule="nonzero"
@@ -490,7 +502,7 @@ const Logo = ({ className, isScrolled }: { className?: string; isScrolled?: bool
       <span
         className={cn(
           "font-extrabold text-xl tracking-wide transition-colors duration-300",
-          isScrolled ? "text-charcoal" : "text-white",
+          isScrolled && !isMenuOpen ? "text-charcoal" : "text-white"
         )}
       >
         SONHAM
