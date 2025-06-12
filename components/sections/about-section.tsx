@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import { MapPin } from "lucide-react"
 import { TextGradientScroll } from "@/components/ui/text-gradient-scroll"
+import { Squares } from "@/components/ui/squares-background"
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -25,8 +26,20 @@ const serviceAreas = ["Essex", "Cambridgeshire", "Suffolk", "Hertfordshire"]
 
 export function AboutSection() {
   return (
-    <section id="about" className="pt-24 pb-12 px-6 bg-white">
-      <div className="max-w-6xl mx-auto">
+    <section id="about" className="pt-24 pb-12 px-6 bg-white relative overflow-hidden">
+      {/* Animated squares background */}
+      <div className="absolute inset-0 opacity-20">
+        <Squares 
+          direction="down"
+          speed={0.1}
+          squareSize={50}
+          borderColor="#d1d5db"
+          hoverFillColor="#f3f4f6"
+          backgroundColor="#ffffff"
+        />
+      </div>
+      
+      <div className="max-w-6xl mx-auto relative z-10">
         {/* Minimal Header */}
         <motion.div
           initial="initial"

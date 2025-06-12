@@ -68,17 +68,20 @@ export function HeroSection() {
             {/* Dark overlay */}
             <div className="absolute inset-0 bg-black/50 backdrop-blur-[1px]" />
 
-            <div className="mx-auto max-w-5xl px-6 relative z-10 w-full -mt-16">
+            <div className="mx-auto max-w-5xl px-6 relative z-10 w-full -mt-20">
               <div className="text-center">
                 <AnimatedGroup variants={transitionVariants}>
                   <Link
-                    href="#gallery"
-                    className="hover:bg-white/20 bg-white/10 group mx-auto flex w-fit items-center gap-3 sm:gap-4 rounded-full border border-white/20 p-1 pl-3 sm:pl-4 shadow-md shadow-black/5 transition-all duration-300 mb-8 sm:mb-10"
+                    href="#project"
+                    className="hover:bg-white/20 bg-white/10 group mx-auto flex w-fit items-center gap-3 sm:gap-4 rounded-full border border-white/20 p-1 pl-3 sm:pl-4 shadow-md shadow-black/5 transition-all duration-300 mb-8 sm:mb-10 relative overflow-hidden"
                   >
-                    <span className="text-white text-xs sm:text-sm font-medium">Explore our current project</span>
-                    <span className="block h-3 sm:h-4 w-0.5 border-l bg-white/10"></span>
+                    {/* Shimmer effect */}
+                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 translate-x-[-200%] animate-shimmer"></div>
+                    
+                    <span className="text-white text-xs sm:text-sm font-medium relative z-10">Explore our current project</span>
+                    <span className="block h-3 sm:h-4 w-0.5 border-l bg-white/10 relative z-10"></span>
 
-                    <div className="bg-white group-hover:bg-white/90 size-5 sm:size-6 overflow-hidden rounded-full duration-500">
+                    <div className="bg-white group-hover:bg-white/90 size-5 sm:size-6 overflow-hidden rounded-full duration-500 relative z-10">
                       <div className="flex w-10 sm:w-12 -translate-x-1/2 duration-500 ease-in-out group-hover:translate-x-0">
                         <span className="flex size-5 sm:size-6">
                           <ArrowRight className="m-auto size-2.5 sm:size-3 text-black" />
@@ -90,7 +93,7 @@ export function HeroSection() {
                     </div>
                   </Link>
 
-                  <h1 className="mx-auto text-balance text-5xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.25rem] text-white font-light tracking-tight leading-[1.1] mb-6 sm:mb-8">
+                  <h1 className="mx-auto text-balance text-6xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.25rem] text-white font-light tracking-tight leading-[1.1] mb-6 sm:mb-8">
                     The Sonham Standard
                   </h1>
                 </AnimatedGroup>
@@ -281,6 +284,20 @@ const HeroHeader = () => {
       clearTimeout(borderTimer)
     }
   }, [isScrolled])
+
+  // Prevent body scroll when menu is open
+  React.useEffect(() => {
+    if (menuState) {
+      document.body.style.overflow = 'hidden'
+    } else {
+      document.body.style.overflow = 'unset'
+    }
+
+    // Cleanup on unmount
+    return () => {
+      document.body.style.overflow = 'unset'
+    }
+  }, [menuState])
   return (
     <header>
       <nav data-state={menuState && "active"} className="fixed z-20 w-full px-2 group">
@@ -300,7 +317,7 @@ const HeroHeader = () => {
               <button
                 onClick={() => setMenuState(!menuState)}
                 aria-label={menuState == true ? "Close Menu" : "Open Menu"}
-                className="relative z-20 -m-2.5 -mr-4 block cursor-pointer p-2.5 lg:hidden"
+                className="relative z-50 -m-2.5 -mr-4 block cursor-pointer p-2.5 lg:hidden"
               >
                 <Menu className={cn(
                   "in-data-[state=active]:rotate-180 group-data-[state=active]:scale-0 group-data-[state=active]:opacity-0 m-auto size-6 duration-200",
@@ -308,7 +325,7 @@ const HeroHeader = () => {
                 )} />
                 <X className={cn(
                   "group-data-[state=active]:rotate-0 group-data-[state=active]:scale-100 group-data-[state=active]:opacity-100 absolute inset-0 m-auto size-6 -rotate-180 scale-0 opacity-0 duration-200",
-                  isScrolled ? "text-charcoal" : "text-white"
+                  menuState ? "text-white" : isScrolled ? "text-charcoal" : "text-white"
                 )} />
               </button>
             </div>
@@ -331,46 +348,102 @@ const HeroHeader = () => {
               </ul>
             </div>
 
-            <div className="group-data-[state=active]:block lg:group-data-[state=active]:flex mb-6 hidden w-full flex-wrap items-center justify-end space-y-8 rounded-3xl border p-6 shadow-2xl shadow-zinc-300/20 bg-white md:flex-nowrap lg:m-0 lg:flex lg:w-fit lg:gap-6 lg:space-y-0 lg:border-transparent lg:bg-transparent lg:p-0 lg:shadow-none dark:shadow-none dark:lg:bg-transparent">
-              <div className="lg:hidden">
-                <ul className="space-y-6 text-base text-right">
+            {/* Modern Full-Screen Mobile Menu */}
+            <div className={cn(
+              "fixed inset-0 z-40 transform transition-all duration-500 ease-out lg:hidden",
+              menuState ? "translate-x-0 opacity-100" : "translate-x-full opacity-0 pointer-events-none"
+            )}>
+              {/* Background with blur */}
+              <div className="absolute inset-0 bg-black/95 backdrop-blur-md" />
+              
+              {/* Menu Content */}
+              <div className="relative h-full flex flex-col justify-between p-8 pt-24">
+                {/* Navigation Links */}
+                <div className="space-y-8">
                   {menuItems.map((item, index) => (
-                    <li key={index}>
+                    <div key={index} className="overflow-hidden">
                       <Link
                         href={item.href}
-                        className="block duration-150 text-charcoal/80 hover:text-charcoal"
+                        onClick={() => setMenuState(false)}
+                        className={cn(
+                          "block text-white text-4xl font-light tracking-tight hover:text-white/80 transition-all duration-300",
+                          "transform transition-transform duration-700 ease-out",
+                          menuState ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"
+                        )}
+                        style={{
+                          transitionDelay: menuState ? `${(index + 1) * 100}ms` : `${(menuItems.length - index) * 50}ms`
+                        }}
                       >
-                        <span>{item.name}</span>
+                        {item.name}
                       </Link>
-                    </li>
+                    </div>
                   ))}
-                </ul>
+                </div>
+
+                {/* Contact Section */}
+                <div className={cn(
+                  "space-y-6 transform transition-all duration-700 ease-out",
+                  menuState ? "translate-y-0 opacity-100" : "translate-y-full opacity-0"
+                )}
+                style={{
+                  transitionDelay: menuState ? "400ms" : "0ms"
+                }}>
+                  {/* Primary CTA */}
+                  <Button
+                    asChild
+                    size="lg"
+                    className="w-full bg-white text-black hover:bg-white/90 text-lg py-6 rounded-xl font-medium"
+                  >
+                    <Link href="#contact" onClick={() => setMenuState(false)}>
+                      Bring Your Vision to Life
+                    </Link>
+                  </Button>
+
+                  {/* Contact Info */}
+                  <div className="space-y-3 text-white/70">
+                    <div className="flex items-center gap-3">
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+                      </svg>
+                      <a href="tel:+443308084344" className="text-sm hover:text-white transition-colors">
+                        0330 808 4344
+                      </a>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                        <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+                      </svg>
+                      <a href="mailto:hello@sonhamgroup.co.uk" className="text-sm hover:text-white transition-colors">
+                        hello@sonhamgroup.co.uk
+                      </a>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
+                        <path fillRule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clipRule="evenodd" />
+                      </svg>
+                      <span className="text-sm">Essex • Cambridgeshire • Suffolk • Hertfordshire</span>
+                    </div>
+                  </div>
+                </div>
               </div>
-              <div className="flex w-full flex-col items-center space-y-3 sm:flex-row sm:gap-3 sm:space-y-0 md:w-fit">
-                <Button
-                  asChild
-                  size="sm"
-                  variant="default"
-                  className="bg-charcoal text-white hover:bg-charcoal/90 lg:hidden"
-                >
-                  <Link href="#contact">
-                    <span>Bring your Vision to Life</span>
-                  </Link>
-                </Button>
-                <Button
-                  asChild
-                  size="sm"
-                  variant={isScrolled ? "default" : "secondary"}
-                  className={cn(
-                    !isScrolled && "bg-white text-charcoal hover:bg-white/90",
-                    "hidden h-auto py-2 lg:block",
-                  )}
-                >
-                  <Link href="#contact">
-                    Get Started
-                  </Link>
-                </Button>
-              </div>
+            </div>
+
+            {/* Desktop Menu (unchanged) */}
+            <div className="hidden lg:flex lg:w-fit lg:gap-6">
+              <Button
+                asChild
+                size="sm"
+                variant={isScrolled ? "default" : "secondary"}
+                className={cn(
+                  !isScrolled && "bg-white text-charcoal hover:bg-white/90",
+                  "h-auto py-2",
+                )}
+              >
+                <Link href="#contact">
+                  Get Started
+                </Link>
+              </Button>
             </div>
           </div>
         </div>

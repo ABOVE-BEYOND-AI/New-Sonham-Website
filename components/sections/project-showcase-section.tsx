@@ -25,7 +25,8 @@ export function ProjectShowcaseSection() {
   ];
 
   return (
-    <ScrollExpandMedia
+    <section id="project">
+      <ScrollExpandMedia
       mediaType="image"
       mediaSrc={mediaContent.mediaSrc}
       bgImageSrc={mediaContent.bgImageSrc}
@@ -162,6 +163,7 @@ export function ProjectShowcaseSection() {
           </div>
                  </motion.div>
       </div>
-    </ScrollExpandMedia>
+      </ScrollExpandMedia>
+    </section>
   );
 } 

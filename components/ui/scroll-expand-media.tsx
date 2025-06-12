@@ -205,7 +205,8 @@ const ScrollExpandMedia = ({
 
   const mediaWidth = 300 + scrollProgress * (isMobileState ? 650 : 1250);
   const mediaHeight = 400 + scrollProgress * (isMobileState ? 200 : 400);
-  const textTranslateX = Math.min(scrollProgress * (isMobileState ? 180 : 150), isMobileState ? 25 : 40);
+  const textTranslateX = scrollProgress * (isMobileState ? 120 : 100);
+  const textOpacity = Math.max(1 - scrollProgress * 2, 0);
 
   const firstWord = title ? title.split(' ')[0] : '';
   const restOfTitle = title ? title.split(' ').slice(1).join(' ') : '';
@@ -335,7 +336,10 @@ const ScrollExpandMedia = ({
                   {date && (
                     <p
                       className='text-2xl text-blue-200'
-                      style={{ transform: `translateX(-${textTranslateX}vw)` }}
+                      style={{ 
+                        transform: `translateX(-${textTranslateX}vw)`,
+                        opacity: textOpacity
+                      }}
                     >
                       {date}
                     </p>
@@ -343,7 +347,10 @@ const ScrollExpandMedia = ({
                   {scrollToExpand && (
                     <p
                       className='text-blue-200 font-medium text-center'
-                      style={{ transform: `translateX(${textTranslateX}vw)` }}
+                      style={{ 
+                        transform: `translateX(${textTranslateX}vw)`,
+                        opacity: textOpacity
+                      }}
                     >
                       {scrollToExpand}
                     </p>
@@ -358,13 +365,19 @@ const ScrollExpandMedia = ({
               >
                 <motion.h2
                   className='text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-blue-200 transition-none'
-                  style={{ transform: `translateX(-${textTranslateX}vw)` }}
+                  style={{ 
+                    transform: `translateX(-${textTranslateX}vw)`,
+                    opacity: textOpacity
+                  }}
                 >
                   {firstWord}
                 </motion.h2>
                 <motion.h2
                   className='text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-center text-blue-200 transition-none'
-                  style={{ transform: `translateX(${textTranslateX}vw)` }}
+                  style={{ 
+                    transform: `translateX(${textTranslateX}vw)`,
+                    opacity: textOpacity
+                  }}
                 >
                   {restOfTitle}
                 </motion.h2>
