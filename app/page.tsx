@@ -9,7 +9,7 @@ import { TextHoverEffect } from "@/components/ui/text-hover-effect"
 
 export default function Home() {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen overflow-x-hidden">
       <HeroSection />
       <AboutSection />
       <ServicesSection />

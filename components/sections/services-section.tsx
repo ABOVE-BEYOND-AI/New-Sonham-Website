@@ -90,7 +90,7 @@ const services = [
 
 export function ServicesSection() {
   return (
-    <section id="services" className="py-20 px-6 lg:px-12 bg-white">
+    <section id="services" className="py-20 px-6 lg:px-12 bg-white overflow-x-hidden">
       <div className="max-w-5xl mx-auto">
         <motion.div
           initial="initial"
@@ -111,7 +111,7 @@ export function ServicesSection() {
         </motion.div>
 
         {/* Bento Grid Layout */}
-        <div className="grid grid-cols-4 md:grid-cols-9 grid-rows-[repeat(12,minmax(140px,auto))] md:grid-rows-[repeat(8,minmax(120px,auto))] gap-4 md:gap-6">
+        <div className="grid grid-cols-4 md:grid-cols-9 grid-rows-[repeat(12,minmax(140px,auto))] md:grid-rows-[repeat(8,minmax(120px,auto))] gap-4 md:gap-6 w-full max-w-full">
           {/* Full Project Management */}
           <ServiceCard
             service={services[0]}

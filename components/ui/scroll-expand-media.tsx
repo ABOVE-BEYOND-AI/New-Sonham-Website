@@ -205,7 +205,7 @@ const ScrollExpandMedia = ({
 
   const mediaWidth = 300 + scrollProgress * (isMobileState ? 650 : 1250);
   const mediaHeight = 400 + scrollProgress * (isMobileState ? 200 : 400);
-  const textTranslateX = scrollProgress * (isMobileState ? 180 : 150);
+  const textTranslateX = Math.min(scrollProgress * (isMobileState ? 180 : 150), isMobileState ? 25 : 40);
 
   const firstWord = title ? title.split(' ')[0] : '';
   const restOfTitle = title ? title.split(' ').slice(1).join(' ') : '';
@@ -214,6 +214,7 @@ const ScrollExpandMedia = ({
     <div
       ref={sectionRef}
       className='transition-colors duration-700 ease-in-out overflow-x-hidden'
+      style={{ maxWidth: '100vw' }}
     >
       <section className='relative flex flex-col items-center justify-start min-h-[100dvh]'>
         <div className='relative w-full flex flex-col items-center min-h-[100dvh]'>
@@ -228,10 +229,11 @@ const ScrollExpandMedia = ({
               alt='Background'
               width={1920}
               height={1080}
-              className='w-screen h-screen'
+              className='w-full h-screen'
               style={{
                 objectFit: 'cover',
                 objectPosition: 'center',
+                maxWidth: '100vw',
               }}
               priority
             />
@@ -350,7 +352,7 @@ const ScrollExpandMedia = ({
               </div>
 
               <div
-                className={`flex items-center justify-center text-center gap-4 w-full relative z-10 transition-none flex-col ${
+                className={`flex items-center justify-center text-center gap-4 w-full relative z-10 transition-none flex-col overflow-hidden ${
                   textBlend ? 'mix-blend-difference' : 'mix-blend-normal'
                 }`}
               >

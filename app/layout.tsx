@@ -33,7 +33,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={plusJakartaSans.variable}>
-      <body className="font-jakarta antialiased bg-stone-50">{children}</body>
+      <body className="font-jakarta antialiased bg-stone-50 overflow-x-hidden">{children}</body>
     </html>
   )
 }
