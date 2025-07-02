@@ -111,18 +111,18 @@ export function ServicesSection() {
         </motion.div>
 
         {/* Bento Grid Layout */}
-        <div className="grid grid-cols-4 md:grid-cols-9 grid-rows-[repeat(12,minmax(140px,auto))] md:grid-rows-[repeat(8,minmax(120px,auto))] gap-4 md:gap-6 w-full max-w-full">
+        <div className="grid grid-cols-1 md:grid-cols-9 grid-rows-[repeat(8,200px)] md:grid-rows-[repeat(8,minmax(120px,auto))] gap-4 md:gap-6 w-full max-w-full">
           {/* Full Project Management */}
           <ServiceCard
             service={services[0]}
-            className="col-span-4 row-span-2 md:col-span-4 md:row-span-2 md:col-start-1 md:row-start-1"
+            className="col-span-1 row-span-1 md:col-span-4 md:row-span-2 md:col-start-1 md:row-start-1"
             animationVariant={createSlideInLeft(0)}
           />
 
           {/* Architectural Design */}
           <ServiceCard
             service={services[1]}
-            className="col-span-4 row-span-2 md:col-span-5 md:row-span-2 md:col-start-5 md:row-start-1"
+            className="col-span-1 row-span-1 md:col-span-5 md:row-span-2 md:col-start-5 md:row-start-1"
             useExtendedPadding={true}
             animationVariant={createSlideInRight(0.1)}
           />
@@ -130,14 +130,14 @@ export function ServicesSection() {
           {/* Planning Permission */}
           <ServiceCard
             service={services[2]}
-            className="col-span-4 row-span-2 md:col-span-3 md:row-span-3 md:col-start-1 md:row-start-3"
+            className="col-span-1 row-span-1 md:col-span-3 md:row-span-3 md:col-start-1 md:row-start-3"
             animationVariant={createSlideInLeft(0.2)}
           />
 
           {/* Structural Engineering */}
           <ServiceCard
             service={services[3]}
-            className="col-span-4 row-span-2 md:col-span-6 md:row-span-2 md:col-start-4 md:row-start-3"
+            className="col-span-1 row-span-1 md:col-span-6 md:row-span-2 md:col-start-4 md:row-start-3"
             useMaxPadding={true}
             animationVariant={createSlideInRight(0.3)}
           />
@@ -145,7 +145,7 @@ export function ServicesSection() {
           {/* Cost Estimating */}
           <ServiceCard
             service={services[4]}
-            className="col-span-4 row-span-2 md:col-span-6 md:row-span-2 md:col-start-4 md:row-start-5"
+            className="col-span-1 row-span-1 md:col-span-6 md:row-span-2 md:col-start-4 md:row-start-5"
             useMaxPadding={true}
             animationVariant={createSlideInRight(0.4)}
           />
@@ -153,7 +153,7 @@ export function ServicesSection() {
           {/* New Builds */}
           <ServiceCard
             service={services[5]}
-            className="col-span-4 row-span-2 md:col-span-3 md:row-span-1 md:col-start-1 md:row-start-6"
+            className="col-span-1 row-span-1 md:col-span-3 md:row-span-1 md:col-start-1 md:row-start-6"
             useDefaultPadding={true}
             animationVariant={createSlideInLeft(0.5)}
           />
@@ -161,7 +161,7 @@ export function ServicesSection() {
           {/* Refurbishments */}
           <ServiceCard
             service={services[6]}
-            className="col-span-4 row-span-2 md:col-span-5 md:row-span-2 md:col-start-1 md:row-start-7"
+            className="col-span-1 row-span-1 md:col-span-5 md:row-span-2 md:col-start-1 md:row-start-7"
             useExtendedPadding={true}
             animationVariant={createSlideInLeft(0.6)}
           />
@@ -169,7 +169,7 @@ export function ServicesSection() {
           {/* Small Developments */}
           <ServiceCard
             service={services[7]}
-            className="col-span-4 row-span-2 md:col-span-4 md:row-span-2 md:col-start-6 md:row-start-7"
+            className="col-span-1 row-span-1 md:col-span-4 md:row-span-2 md:col-start-6 md:row-start-7"
             animationVariant={createSlideInRight(0.7)}
           />
         </div>
@@ -224,16 +224,16 @@ function ServiceCard({ service, className, useDefaultPadding = false, useExtende
       <div
         className={cn(
           "relative z-10 h-full p-4 md:p-5 flex flex-col justify-end",
-          "pr-16 md:" + (useDefaultPadding ? "pr-20" : useMaxPadding ? "pr-60" : useExtendedPadding ? "pr-44" : "pr-36"),
+          "pr-4 md:" + (useDefaultPadding ? "pr-20" : useMaxPadding ? "pr-60" : useExtendedPadding ? "pr-44" : "pr-36"),
         )}
       >
         <div className="mb-2">
-          <Icon className="w-6 h-6 text-black" strokeWidth={1.5} />
+          <Icon className="w-5 h-5 md:w-6 md:h-6 text-black" strokeWidth={1.5} />
         </div>
-        <h3 className="font-jakarta text-2xl md:text-2xl font-bold text-black mb-1 leading-tight tracking-tight">
+        <h3 className="font-jakarta text-lg md:text-2xl font-bold text-black mb-1 leading-tight tracking-tight">
           {service.title}
         </h3>
-        <p className="font-jakarta text-sm md:text-sm text-black/70 leading-relaxed font-normal">
+        <p className="font-jakarta text-xs md:text-sm text-black/70 leading-relaxed font-normal">
           {service.description}
         </p>
       </div>
