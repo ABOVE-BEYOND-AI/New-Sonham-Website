@@ -101,7 +101,7 @@ export function ServicesSection() {
         >
           <div className="hover:bg-white/20 bg-white/10 group mx-auto flex w-fit items-center gap-3 rounded-full border border-gray-200 p-1 pl-4 shadow-md shadow-black/5 transition-all duration-300 mb-6">
             <House className="w-4 h-4 text-gray-600" />
-            <span className="text-gray-600 text-sm font-medium pr-3">Services</span>
+            <span className="text-gray-600 text-sm font-medium pr-3">Our Services</span>
           </div>
           <h2 className="text-5xl md:text-5xl lg:text-6xl font-bold text-black tracking-tight mb-4">What We Offer</h2>
           <p className="text-lg text-black/70 max-w-3xl mx-auto">
