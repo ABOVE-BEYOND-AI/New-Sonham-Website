@@ -59,7 +59,7 @@ export function AboutSection() {
         <div className="mb-16 md:mb-20">
           <div className="max-w-5xl mx-auto text-center">
             <TextGradientScroll
-              text="At Sonham Group, we specialise in turning the impossible into reality. From the unusual and bespoke to traditional and timeless builds, we bring your vision to life through expert craftsmanship and meticulous project management."
+              text="At Sonham Group, we specialise in turning the impossible into reality. From the unusual and bespoke to traditional and timeless builds, we use a blend of modern and time-honoured construction practices to bring your vision to life. Whether you're starting from scratch or transforming an existing space, we manage every element — from planning permissions and architectural design, to structural consultancy, cost management, and project timelines."
               className="text-2xl md:text-3xl lg:text-4xl leading-relaxed font-light text-black justify-center"
               type="word"
               textOpacity="soft"
@@ -101,9 +101,7 @@ export function AboutSection() {
             <div className="space-y-8">
               <motion.div variants={fadeInUp}>
                 <p className="text-lg leading-relaxed text-black/70">
-                  Founded by a family-driven team, our business is rooted in strong values, personal service, and a
-                  commitment to creating the perfect space that suits your lifestyle. We take pride in delivering
-                  excellence, whether it's a large-scale new build, a full refurbishment, or a smaller development.
+                  Founded by a family-driven team, our business is rooted in strong values, personal service, and a commitment to creating the perfect home or space that suits your lifestyle. We take pride in delivering excellence, whether it's a large-scale new build, a full refurbishment, or a smaller development plot. Our multi-skilled team of trusted tradespeople ensures top-tier craftsmanship and complete customer satisfaction on every project.
                 </p>
               </motion.div>
 
@@ -126,21 +124,17 @@ export function AboutSection() {
                 </ul>
               </motion.div>
 
-              {/* Service Areas - Compact */}
+              {/* Service Areas - Simple Text List */}
               <motion.div variants={fadeInUp} className="pt-4">
                 <h3 className="text-xl font-medium text-black mb-4">Service Areas</h3>
-                <div className="grid grid-cols-2 gap-3">
+                <ul className="space-y-2">
                   {serviceAreas.map((area, index) => (
-                    <div
-                      key={index}
-                      className="bg-gray-50 hover:bg-gray-100 transition-all duration-300 rounded-lg p-3 text-center border border-gray-100"
-                    >
-                      <span className="text-sm font-medium text-black/80 hover:text-black transition-colors duration-300">
-                        {area}
-                      </span>
-                    </div>
+                    <li key={index} className="flex items-center gap-3">
+                      <span className="w-2 h-2 bg-black rounded-full"></span>
+                      <span className="text-black/80 text-lg">{area}</span>
+                    </li>
                   ))}
-                </div>
+                </ul>
               </motion.div>
             </div>
           </motion.div>

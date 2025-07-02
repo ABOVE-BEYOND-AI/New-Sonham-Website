@@ -8,8 +8,8 @@ import { X, Layers } from "lucide-react"
 const projects = [
   {
     id: 1,
-    title: "Modern Family Home",
-    description: "Contemporary new build with sustainable features",
+    title: "Contemporary Family Home",
+    description: "Complete transformation from period property to modern family home including architectural planning and interior design",
     images: [
       {
         src: "/images/project-1/image4_compressed.webp",
@@ -26,6 +26,22 @@ const projects = [
       {
         src: "/images/project-1/image3_compressed.webp",
         alt: "Modern family home kitchen design",
+      },
+      {
+        src: "/images/project-3/plot_3_(1)_upscaled_compressed.webp",
+        alt: "Contemporary extension exterior",
+      },
+      {
+        src: "/images/project-3/plot_3_rear_upscaled_compressed.webp",
+        alt: "Contemporary extension rear view",
+      },
+      {
+        src: "/images/Sonham Group New Website_compressed.webp",
+        alt: "Architectural plan view 1",
+      },
+      {
+        src: "/images/Sonham Group New Website (1)_compressed.webp",
+        alt: "Architectural plan view 2",
       },
     ],
   },
@@ -62,22 +78,7 @@ const projects = [
   },
   {
     id: 3,
-    title: "Period Property Renovation",
-    description: "Sympathetic renovation and modernisation of traditional homes",
-    images: [
-      {
-        src: "/images/project-3/plot_3_(1)_upscaled_compressed.webp",
-        alt: "Contemporary extension exterior",
-      },
-      {
-        src: "/images/project-3/plot_3_rear_upscaled_compressed.webp",
-        alt: "Contemporary extension rear view",
-      },
-    ],
-  },
-  {
-    id: 4,
-    title: "Modern Townhouse Development",
+    title: "Collect of New Build Developments",
     description: "Collection of contemporary new build homes with modern design",
     images: [
       {
@@ -87,22 +88,7 @@ const projects = [
     ],
   },
   {
-    id: 5,
-    title: "Bell House, Henham",
-    description: "Architectural plans for contemporary residential development",
-    images: [
-      {
-        src: "/images/Sonham Group New Website_compressed.webp",
-        alt: "Bell House architectural plan view 1",
-      },
-      {
-        src: "/images/Sonham Group New Website (1)_compressed.webp",
-        alt: "Bell House architectural plan view 2",
-      },
-    ],
-  },
-  {
-    id: 6,
+    id: 4,
     title: "Residential Development",
     description: "Modern block of flats with contemporary design",
     images: [
@@ -163,7 +149,7 @@ export function GallerySection() {
             </div>
             <h2 className="text-5xl md:text-5xl lg:text-6xl font-bold text-black tracking-tight mb-6">Our Work</h2>
             <p className="text-lg text-black/70 max-w-2xl mx-auto">
-              Take a look at just a few of the many successful projects we've completed for our valued clients
+              Take a look at just a few of the many successful projects led by the founders of Sonham Group — from initial planning stages to moving day. Our portfolio features:
             </p>
           </motion.div>
 

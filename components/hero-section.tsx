@@ -98,22 +98,7 @@ export function HeroSection() {
                   </h1>
                 </AnimatedGroup>
 
-                <AnimatedGroup
-                  variants={{
-                    container: {
-                      visible: {
-                        transition: {
-                          delayChildren: 0.6,
-                        },
-                      },
-                    },
-                    ...transitionVariants,
-                  }}
-                >
-                  <p className="mx-auto max-w-3xl text-balance text-base sm:text-lg lg:text-xl text-white/90 leading-relaxed mb-8 sm:mb-10 px-4 sm:px-0">
-                    While other builders force you to choose between your dream design and reality, our integrated approach unites award-winning architects, master craftsmen, and total project mastery under one roof. The result? Homes that don't just meet expectations—they redefine what's possible.
-                  </p>
-                </AnimatedGroup>
+
 
                 <AnimatedGroup
                   variants={{

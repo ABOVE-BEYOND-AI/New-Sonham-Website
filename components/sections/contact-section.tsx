@@ -80,17 +80,15 @@ export function ContactSection() {
           <motion.div variants={fadeInUp} className="mb-8">
             <div className="inline-flex items-center gap-2 bg-black text-white px-4 py-2 rounded-full text-sm font-medium mb-6">
               <Clock className="w-4 h-4" />
-              <span>Typical response within 2 hours</span>
+              <span>Contact us</span>
             </div>
             <h2 className="text-5xl md:text-6xl lg:text-7xl font-bold text-black tracking-tight">
-              Let's Build Something<br />
-              <span className="text-gray-400">Extraordinary</span>
+              Let's bring your vision to life.
             </h2>
           </motion.div>
           
           <motion.p variants={fadeInUp} className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Join an exclusive group of discerning homeowners who refuse to compromise on quality. 
-            Your vision deserves our expertise.
+            Whether you're just starting to explore ideas or you're ready to begin, our expert team is here to guide you. We offer friendly, honest advice and a free initial consultation to help you understand what's possible for your project.
           </motion.p>
         </motion.div>
 
