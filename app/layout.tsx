@@ -1,6 +1,7 @@
 import type React from "react"
 import type { Metadata } from "next"
 import localFont from "next/font/local"
+import { Analytics } from '@vercel/analytics/react'
 import "./globals.css"
 
 const plusJakartaSans = localFont({
@@ -33,7 +34,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={plusJakartaSans.variable}>
-      <body className="font-jakarta antialiased bg-stone-50 overflow-x-hidden">{children}</body>
+      <body className="font-jakarta antialiased bg-stone-50 overflow-x-hidden">
+        {children}
+        <Analytics />
+      </body>
     </html>
   )
 }

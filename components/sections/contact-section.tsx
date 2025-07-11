@@ -4,6 +4,7 @@ import type React from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useState } from "react"
 import { MapPin, Phone, Mail, Clock, CheckCircle2, ArrowRight } from "lucide-react"
+import { track } from '@vercel/analytics'
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -33,37 +34,148 @@ export function ContactSection() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
   const [focusedField, setFocusedField] = useState<string | null>(null)
+  const [hasStartedForm, setHasStartedForm] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500))
-
-    setIsSubmitting(false)
-    setShowSuccess(true)
-    
-    // Reset form after delay
-    setTimeout(() => {
-      setFormData({ 
-        name: "", 
-        email: "", 
-        phone: "", 
-        projectType: "",
-        budget: "",
-        timeline: "",
-        message: "" 
+    try {
+      // Track form submission attempt
+      track('Contact Form Submitted', {
+        projectType: formData.projectType,
+        budget: formData.budget,
+        timeline: formData.timeline,
+        hasPhone: formData.phone ? 'yes' : 'no',
+        messageLength: formData.message.length.toString(),
+        formCompleteness: calculateFormCompleteness(formData)
       })
-      setShowSuccess(false)
-    }, 5000)
+
+      // Submit to API
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      })
+
+      const result = await response.json()
+
+      if (result.success) {
+        // Track successful submission
+        track('Contact Form Success', {
+          projectType: formData.projectType,
+          budget: formData.budget,
+          timeline: formData.timeline,
+          submissionId: result.submissionId || 'unknown'
+        })
+        
+        setShowSuccess(true)
+        
+        // Reset form after delay
+        setTimeout(() => {
+          setFormData({ 
+            name: "", 
+            email: "", 
+            phone: "", 
+            projectType: "",
+            budget: "",
+            timeline: "",
+            message: "" 
+          })
+          setShowSuccess(false)
+        }, 5000)
+      } else {
+        // Track submission error
+        track('Contact Form Error', {
+          error: result.message || 'Unknown error',
+          projectType: formData.projectType,
+          formCompleteness: calculateFormCompleteness(formData)
+        })
+        
+        alert(result.message || 'Something went wrong. Please try again.')
+      }
+    } catch (error) {
+      // Track network/other errors
+      track('Contact Form Network Error', {
+        error: error instanceof Error ? error.message : 'Network error',
+        projectType: formData.projectType,
+        formCompleteness: calculateFormCompleteness(formData)
+      })
+      
+      alert('Something went wrong. Please try again.')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
+  // Helper function to calculate form completeness percentage
+  const calculateFormCompleteness = (data: typeof formData) => {
+    const fields = Object.values(data)
+    const filledFields = fields.filter(field => field.trim() !== '').length
+    return Math.round((filledFields / fields.length) * 100).toString()
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target
+    
     setFormData((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value,
+      [name]: value,
     }))
+
+    // Track important field selections
+    if (name === 'projectType' && value) {
+      track('Project Type Selected', {
+        projectType: value,
+        formProgress: calculateFormCompleteness({ ...formData, [name]: value })
+      })
+    }
+    
+    if (name === 'budget' && value) {
+      track('Budget Range Selected', {
+        budget: value,
+        projectType: formData.projectType || 'not-selected',
+        formProgress: calculateFormCompleteness({ ...formData, [name]: value })
+      })
+    }
+
+    if (name === 'timeline' && value) {
+      track('Timeline Selected', {
+        timeline: value,
+        projectType: formData.projectType || 'not-selected',
+        budget: formData.budget || 'not-selected',
+        formProgress: calculateFormCompleteness({ ...formData, [name]: value })
+      })
+    }
+  }
+
+  // Track form engagement
+  const handleFieldFocus = (fieldName: string) => {
+    setFocusedField(fieldName)
+    
+    if (!hasStartedForm) {
+      setHasStartedForm(true)
+      track('Contact Form Started', {
+        firstField: fieldName,
+        timestamp: new Date().toISOString()
+      })
+    }
+  }
+
+  const handleFieldBlur = () => {
+    setFocusedField(null)
+    
+    // Track form abandonment if user has data but leaves
+    const completeness = calculateFormCompleteness(formData)
+    if (hasStartedForm && parseInt(completeness) > 10 && parseInt(completeness) < 100) {
+      track('Contact Form Progress', {
+        completeness,
+        fieldsCompleted: Object.values(formData).filter(field => field.trim() !== '').length.toString(),
+        lastActiveField: focusedField || 'unknown'
+      })
+    }
   }
 
   return (
@@ -154,8 +266,8 @@ export function ContactSection() {
                           required
                           value={formData.name}
                           onChange={handleChange}
-                          onFocus={() => setFocusedField('name')}
-                          onBlur={() => setFocusedField(null)}
+                          onFocus={() => handleFieldFocus('name')}
+                          onBlur={handleFieldBlur}
                           className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-black focus:ring-1 focus:ring-black outline-none transition-all duration-200"
                           placeholder="John Smith"
                         />
@@ -172,8 +284,8 @@ export function ContactSection() {
                           required
                           value={formData.email}
                           onChange={handleChange}
-                          onFocus={() => setFocusedField('email')}
-                          onBlur={() => setFocusedField(null)}
+                          onFocus={() => handleFieldFocus('email')}
+                          onBlur={handleFieldBlur}
                           className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-black focus:ring-1 focus:ring-black outline-none transition-all duration-200"
                           placeholder="john@example.com"
                         />
@@ -192,8 +304,8 @@ export function ContactSection() {
                           name="phone"
                           value={formData.phone}
                           onChange={handleChange}
-                          onFocus={() => setFocusedField('phone')}
-                          onBlur={() => setFocusedField(null)}
+                          onFocus={() => handleFieldFocus('phone')}
+                          onBlur={handleFieldBlur}
                           className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-black focus:ring-1 focus:ring-black outline-none transition-all duration-200"
                           placeholder="0330 808 4344"
                         />
@@ -208,8 +320,8 @@ export function ContactSection() {
                           name="projectType"
                           value={formData.projectType}
                           onChange={handleChange}
-                          onFocus={() => setFocusedField('projectType')}
-                          onBlur={() => setFocusedField(null)}
+                          onFocus={() => handleFieldFocus('projectType')}
+                          onBlur={handleFieldBlur}
                           className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-black focus:ring-1 focus:ring-black outline-none transition-all duration-200 cursor-pointer"
                         >
                           <option value="">Select project type</option>
@@ -232,8 +344,8 @@ export function ContactSection() {
                           name="budget"
                           value={formData.budget}
                           onChange={handleChange}
-                          onFocus={() => setFocusedField('budget')}
-                          onBlur={() => setFocusedField(null)}
+                          onFocus={() => handleFieldFocus('budget')}
+                          onBlur={handleFieldBlur}
                           className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-black focus:ring-1 focus:ring-black outline-none transition-all duration-200 cursor-pointer"
                         >
                           <option value="">Select budget range</option>
@@ -253,8 +365,8 @@ export function ContactSection() {
                           name="timeline"
                           value={formData.timeline}
                           onChange={handleChange}
-                          onFocus={() => setFocusedField('timeline')}
-                          onBlur={() => setFocusedField(null)}
+                          onFocus={() => handleFieldFocus('timeline')}
+                          onBlur={handleFieldBlur}
                           className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-black focus:ring-1 focus:ring-black outline-none transition-all duration-200 cursor-pointer"
                         >
                           <option value="">When to start?</option>
@@ -278,8 +390,8 @@ export function ContactSection() {
                         rows={4}
                         value={formData.message}
                         onChange={handleChange}
-                        onFocus={() => setFocusedField('message')}
-                        onBlur={() => setFocusedField(null)}
+                        onFocus={() => handleFieldFocus('message')}
+                        onBlur={handleFieldBlur}
                         className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-black focus:ring-1 focus:ring-black outline-none transition-all duration-200 resize-none"
                         placeholder="Describe your project goals, style preferences, and any specific requirements..."
                       />
