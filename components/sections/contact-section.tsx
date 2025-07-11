@@ -34,23 +34,12 @@ export function ContactSection() {
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
   const [focusedField, setFocusedField] = useState<string | null>(null)
-  const [hasStartedForm, setHasStartedForm] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
 
     try {
-      // Track form submission attempt
-      track('Contact Form Submitted', {
-        projectType: formData.projectType,
-        budget: formData.budget,
-        timeline: formData.timeline,
-        hasPhone: formData.phone ? 'yes' : 'no',
-        messageLength: formData.message.length.toString(),
-        formCompleteness: calculateFormCompleteness(formData)
-      })
-
       // Submit to API
       const response = await fetch('/api/contact', {
         method: 'POST',
@@ -63,11 +52,15 @@ export function ContactSection() {
       const result = await response.json()
 
       if (result.success) {
-        // Track successful submission
-        track('Contact Form Success', {
-          projectType: formData.projectType,
-          budget: formData.budget,
-          timeline: formData.timeline,
+        // Track the form submission with all the user's data
+        track('Contact Form Submission', {
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone || 'Not provided',
+          projectType: formData.projectType || 'Not specified',
+          budget: formData.budget || 'Not specified',
+          timeline: formData.timeline || 'Not specified',
+          message: formData.message,
           submissionId: result.submissionId || 'unknown'
         })
         
@@ -87,34 +80,13 @@ export function ContactSection() {
           setShowSuccess(false)
         }, 5000)
       } else {
-        // Track submission error
-        track('Contact Form Error', {
-          error: result.message || 'Unknown error',
-          projectType: formData.projectType,
-          formCompleteness: calculateFormCompleteness(formData)
-        })
-        
         alert(result.message || 'Something went wrong. Please try again.')
       }
     } catch (error) {
-      // Track network/other errors
-      track('Contact Form Network Error', {
-        error: error instanceof Error ? error.message : 'Network error',
-        projectType: formData.projectType,
-        formCompleteness: calculateFormCompleteness(formData)
-      })
-      
       alert('Something went wrong. Please try again.')
     } finally {
       setIsSubmitting(false)
     }
-  }
-
-  // Helper function to calculate form completeness percentage
-  const calculateFormCompleteness = (data: typeof formData) => {
-    const fields = Object.values(data)
-    const filledFields = fields.filter(field => field.trim() !== '').length
-    return Math.round((filledFields / fields.length) * 100).toString()
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -124,58 +96,6 @@ export function ContactSection() {
       ...prev,
       [name]: value,
     }))
-
-    // Track important field selections
-    if (name === 'projectType' && value) {
-      track('Project Type Selected', {
-        projectType: value,
-        formProgress: calculateFormCompleteness({ ...formData, [name]: value })
-      })
-    }
-    
-    if (name === 'budget' && value) {
-      track('Budget Range Selected', {
-        budget: value,
-        projectType: formData.projectType || 'not-selected',
-        formProgress: calculateFormCompleteness({ ...formData, [name]: value })
-      })
-    }
-
-    if (name === 'timeline' && value) {
-      track('Timeline Selected', {
-        timeline: value,
-        projectType: formData.projectType || 'not-selected',
-        budget: formData.budget || 'not-selected',
-        formProgress: calculateFormCompleteness({ ...formData, [name]: value })
-      })
-    }
-  }
-
-  // Track form engagement
-  const handleFieldFocus = (fieldName: string) => {
-    setFocusedField(fieldName)
-    
-    if (!hasStartedForm) {
-      setHasStartedForm(true)
-      track('Contact Form Started', {
-        firstField: fieldName,
-        timestamp: new Date().toISOString()
-      })
-    }
-  }
-
-  const handleFieldBlur = () => {
-    setFocusedField(null)
-    
-    // Track form abandonment if user has data but leaves
-    const completeness = calculateFormCompleteness(formData)
-    if (hasStartedForm && parseInt(completeness) > 10 && parseInt(completeness) < 100) {
-      track('Contact Form Progress', {
-        completeness,
-        fieldsCompleted: Object.values(formData).filter(field => field.trim() !== '').length.toString(),
-        lastActiveField: focusedField || 'unknown'
-      })
-    }
   }
 
   return (
@@ -266,8 +186,8 @@ export function ContactSection() {
                           required
                           value={formData.name}
                           onChange={handleChange}
-                          onFocus={() => handleFieldFocus('name')}
-                          onBlur={handleFieldBlur}
+                          onFocus={() => setFocusedField('name')}
+                          onBlur={() => setFocusedField(null)}
                           className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-black focus:ring-1 focus:ring-black outline-none transition-all duration-200"
                           placeholder="John Smith"
                         />
@@ -284,8 +204,8 @@ export function ContactSection() {
                           required
                           value={formData.email}
                           onChange={handleChange}
-                          onFocus={() => handleFieldFocus('email')}
-                          onBlur={handleFieldBlur}
+                          onFocus={() => setFocusedField('email')}
+                          onBlur={() => setFocusedField(null)}
                           className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-black focus:ring-1 focus:ring-black outline-none transition-all duration-200"
                           placeholder="john@example.com"
                         />
@@ -304,8 +224,8 @@ export function ContactSection() {
                           name="phone"
                           value={formData.phone}
                           onChange={handleChange}
-                          onFocus={() => handleFieldFocus('phone')}
-                          onBlur={handleFieldBlur}
+                          onFocus={() => setFocusedField('phone')}
+                          onBlur={() => setFocusedField(null)}
                           className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-black focus:ring-1 focus:ring-black outline-none transition-all duration-200"
                           placeholder="0330 808 4344"
                         />
@@ -320,8 +240,8 @@ export function ContactSection() {
                           name="projectType"
                           value={formData.projectType}
                           onChange={handleChange}
-                          onFocus={() => handleFieldFocus('projectType')}
-                          onBlur={handleFieldBlur}
+                          onFocus={() => setFocusedField('projectType')}
+                          onBlur={() => setFocusedField(null)}
                           className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-black focus:ring-1 focus:ring-black outline-none transition-all duration-200 cursor-pointer"
                         >
                           <option value="">Select project type</option>
@@ -344,8 +264,8 @@ export function ContactSection() {
                           name="budget"
                           value={formData.budget}
                           onChange={handleChange}
-                          onFocus={() => handleFieldFocus('budget')}
-                          onBlur={handleFieldBlur}
+                          onFocus={() => setFocusedField('budget')}
+                          onBlur={() => setFocusedField(null)}
                           className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-black focus:ring-1 focus:ring-black outline-none transition-all duration-200 cursor-pointer"
                         >
                           <option value="">Select budget range</option>
@@ -365,8 +285,8 @@ export function ContactSection() {
                           name="timeline"
                           value={formData.timeline}
                           onChange={handleChange}
-                          onFocus={() => handleFieldFocus('timeline')}
-                          onBlur={handleFieldBlur}
+                          onFocus={() => setFocusedField('timeline')}
+                          onBlur={() => setFocusedField(null)}
                           className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-black focus:ring-1 focus:ring-black outline-none transition-all duration-200 cursor-pointer"
                         >
                           <option value="">When to start?</option>
@@ -390,8 +310,8 @@ export function ContactSection() {
                         rows={4}
                         value={formData.message}
                         onChange={handleChange}
-                        onFocus={() => handleFieldFocus('message')}
-                        onBlur={handleFieldBlur}
+                        onFocus={() => setFocusedField('message')}
+                        onBlur={() => setFocusedField(null)}
                         className="w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-xl focus:bg-white focus:border-black focus:ring-1 focus:ring-black outline-none transition-all duration-200 resize-none"
                         placeholder="Describe your project goals, style preferences, and any specific requirements..."
                       />
