@@ -29,34 +29,55 @@ export function ContactSection() {
     budget: "",
     timeline: "",
     message: "",
+    honeypot: "", // Anti-spam honeypot field (hidden from users)
   })
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [showSuccess, setShowSuccess] = useState(false)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [focusedField, setFocusedField] = useState<string | null>(null)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
+    setErrorMessage(null)
 
-    // Simulate API call
-    await new Promise((resolve) => setTimeout(resolve, 1500))
-
-    setIsSubmitting(false)
-    setShowSuccess(true)
-    
-    // Reset form after delay
-    setTimeout(() => {
-      setFormData({ 
-        name: "", 
-        email: "", 
-        phone: "", 
-        projectType: "",
-        budget: "",
-        timeline: "",
-        message: "" 
+    try {
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
       })
-      setShowSuccess(false)
-    }, 5000)
+
+      const data = await response.json()
+
+      if (response.ok && data.success) {
+        setShowSuccess(true)
+        
+        // Reset form after delay
+        setTimeout(() => {
+          setFormData({ 
+            name: "", 
+            email: "", 
+            phone: "", 
+            projectType: "",
+            budget: "",
+            timeline: "",
+            message: "",
+            honeypot: "",
+          })
+          setShowSuccess(false)
+        }, 5000)
+      } else {
+        setErrorMessage(data.message || "Something went wrong. Please try again.")
+      }
+    } catch (error) {
+      console.error('Form submission error:', error)
+      setErrorMessage("Network error. Please check your connection and try again.")
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -284,6 +305,25 @@ export function ContactSection() {
                         placeholder="Describe your project goals, style preferences, and any specific requirements..."
                       />
                     </div>
+
+                    {/* Honeypot field - hidden from users, catches bots */}
+                    <div className="hidden" aria-hidden="true">
+                      <input
+                        type="text"
+                        name="honeypot"
+                        value={formData.honeypot}
+                        onChange={handleChange}
+                        tabIndex={-1}
+                        autoComplete="off"
+                      />
+                    </div>
+
+                    {/* Error Message */}
+                    {errorMessage && (
+                      <div className="bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-xl text-sm">
+                        {errorMessage}
+                      </div>
+                    )}
 
                     {/* Privacy Notice */}
                     <p className="text-xs text-gray-500 text-center">
