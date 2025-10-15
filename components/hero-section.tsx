@@ -6,6 +6,7 @@ import Image from "next/image"
 import { ArrowRight, Menu, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { AnimatedGroup } from "@/components/ui/animated-group"
+import { HeroIntroAnimation } from "@/components/hero-intro-animation-v2"
 import { cn } from "@/lib/utils"
 
 const transitionVariants = {
@@ -68,12 +69,24 @@ export function HeroSection() {
             {/* Dark overlay */}
             <div className="absolute inset-0 bg-black/50 backdrop-blur-[1px]" />
 
-            <div className="mx-auto max-w-5xl px-6 relative z-10 w-full -mt-20">
+            <div className="mx-auto max-w-6xl px-6 relative z-10 w-full -mt-20">
               <div className="text-center">
-                <AnimatedGroup variants={transitionVariants}>
+                {/* Glass pill - appears BEFORE button */}
+                <AnimatedGroup 
+                  variants={{
+                    container: {
+                      visible: {
+                        transition: {
+                          delayChildren: 2.5,
+                        },
+                      },
+                    },
+                    ...transitionVariants,
+                  }}
+                >
                   <Link
                     href="#project"
-                    className="hover:bg-white/20 bg-white/10 group mx-auto flex w-fit items-center gap-3 sm:gap-4 rounded-full border border-white/20 p-1 pl-3 sm:pl-4 shadow-md shadow-black/5 transition-all duration-300 mb-8 sm:mb-10 relative overflow-hidden"
+                    className="hover:bg-white/20 bg-white/10 group mx-auto flex w-fit items-center gap-3 sm:gap-4 rounded-full border border-white/20 p-1 pl-3 sm:pl-4 shadow-md shadow-black/5 transition-all duration-300 mt-12 sm:mt-16 md:mt-20 mb-6 sm:mb-8 relative overflow-hidden"
                   >
                     {/* Shimmer effect */}
                     <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -skew-x-12 translate-x-[-200%] animate-shimmer"></div>
@@ -92,27 +105,26 @@ export function HeroSection() {
                       </div>
                     </div>
                   </Link>
-
-                  <h1 className="mx-auto text-balance text-[2.75rem] sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.25rem] text-white font-light tracking-tight leading-[1.1] mb-6 sm:mb-8">
-                    The Sonham Standard
-                  </h1>
                 </AnimatedGroup>
 
+                {/* Awwwards-winning logo reveal animation */}
+                <HeroIntroAnimation />
 
-
+                
+                {/* CTA Button */}
                 <AnimatedGroup
                   variants={{
                     container: {
                       visible: {
                         transition: {
                           staggerChildren: 0.1,
-                          delayChildren: 1.2,
+                          delayChildren: 3.2,
                         },
                       },
                     },
                     ...transitionVariants,
                   }}
-                  className="flex flex-col items-center justify-center"
+                  className="flex flex-col items-center justify-center mt-4 sm:mt-5 md:mt-6"
                 >
                   <div className="relative group">
                     {/* Animated glow background */}
