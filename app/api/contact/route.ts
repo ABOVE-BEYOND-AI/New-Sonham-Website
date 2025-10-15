@@ -1,6 +1,7 @@
 import { type NextRequest, NextResponse } from "next/server"
 import { appendToGoogleSheet } from "@/lib/google-sheets"
 import { checkRateLimit, getClientIp } from "@/lib/rate-limit"
+import { track } from '@vercel/analytics/server'
 
 export async function POST(request: NextRequest) {
   try {
@@ -54,6 +55,9 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Generate a simple submission ID for tracking
+    const submissionId = Date.now().toString() + Math.random().toString(36).substr(2, 9)
+
     // Prepare submission data
     const submissionData = {
       name: name.trim(),
@@ -76,8 +80,21 @@ export async function POST(request: NextRequest) {
       // In production, you might want to implement a fallback or queue system
     }
 
+    // Track the form submission with Vercel Analytics
+    await track('Contact Form Submission', {
+      submissionId,
+      name,
+      email,
+      phone: phone || 'Not provided',
+      projectType: projectType || 'Not specified',
+      budget: budget || 'Not specified',
+      timeline: timeline || 'Not specified',
+      message
+    })
+
     // Log for debugging (Vercel logs)
     console.log("Form submission received:", {
+      submissionId,
       email: submissionData.email,
       timestamp: submissionData.timestamp,
       ip: clientIp,
@@ -85,8 +102,10 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      message: "Thank you for your enquiry! We'll be in touch soon.",
+      message: "Thank you for your enquiry! We'll be in touch within 2 hours.",
+      submissionId
     })
+
   } catch (error) {
     console.error("Error processing form submission:", error)
     return NextResponse.json(

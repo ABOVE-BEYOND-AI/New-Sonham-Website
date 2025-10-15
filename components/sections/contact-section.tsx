@@ -4,6 +4,7 @@ import type React from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { useState } from "react"
 import { MapPin, Phone, Mail, Clock, CheckCircle2, ArrowRight } from "lucide-react"
+import { track } from '@vercel/analytics'
 
 const fadeInUp = {
   initial: { opacity: 0, y: 20 },
@@ -50,9 +51,21 @@ export function ContactSection() {
         body: JSON.stringify(formData),
       })
 
-      const data = await response.json()
+      const result = await response.json()
 
-      if (response.ok && data.success) {
+      if (result.success) {
+        // Track the form submission with Vercel Analytics
+        track('Contact Form Submission', {
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone || 'Not provided',
+          projectType: formData.projectType || 'Not specified',
+          budget: formData.budget || 'Not specified',
+          timeline: formData.timeline || 'Not specified',
+          message: formData.message,
+          submissionId: result.submissionId || 'unknown'
+        })
+        
         setShowSuccess(true)
         
         // Reset form after delay
@@ -70,7 +83,7 @@ export function ContactSection() {
           setShowSuccess(false)
         }, 5000)
       } else {
-        setErrorMessage(data.message || "Something went wrong. Please try again.")
+        setErrorMessage(result.message || "Something went wrong. Please try again.")
       }
     } catch (error) {
       console.error('Form submission error:', error)
@@ -81,9 +94,11 @@ export function ContactSection() {
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target
+    
     setFormData((prev) => ({
       ...prev,
-      [e.target.name]: e.target.value,
+      [name]: value,
     }))
   }
 
