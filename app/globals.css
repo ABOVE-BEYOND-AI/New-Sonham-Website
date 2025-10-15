@@ -68,6 +68,8 @@
   }
   body {
     @apply bg-background text-foreground font-jakarta;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 }
 
@@ -95,6 +97,13 @@
   animation: shimmer 3s ease-in-out infinite;
 }
 
+/* Optimize GPU acceleration for scroll animations */
+.gsap-scroll-smooth {
+  will-change: transform;
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
+}
+
 /* Respect reduced motion preferences */
 @media (prefers-reduced-motion: reduce) {
   * {
@@ -105,5 +114,9 @@
   
   .animate-shimmer {
     animation: none;
+  }
+  
+  html {
+    scroll-behavior: auto;
   }
 }

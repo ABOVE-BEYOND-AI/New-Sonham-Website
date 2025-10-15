@@ -24,7 +24,12 @@ const plusJakartaSans = localFont({
 export const metadata: Metadata = {
   title: "Sonham Group - Construction & Development",
   description: "Specialising in turning the impossible into reality with expert construction and development services.",
-    generator: 'v0.dev'
+  generator: 'v0.dev',
+  icons: {
+    icon: '/images/Sonham-Favicon.png',
+    shortcut: '/images/Sonham-Favicon.png',
+    apple: '/images/Sonham-Favicon.png',
+  },
 }
 
 export default function RootLayout({

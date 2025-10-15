@@ -1,6 +1,6 @@
 'use client';
 
-import ScrollExpandMedia from '@/components/ui/scroll-expand-media';
+import ScrollExpandMediaGSAP from '@/components/ui/scroll-expand-media-gsap';
 import Image from 'next/image';
 import { motion } from 'framer-motion';
 
@@ -26,7 +26,7 @@ export function ProjectShowcaseSection() {
 
   return (
     <section id="project">
-      <ScrollExpandMedia
+      <ScrollExpandMediaGSAP
         mediaType="image"
         mediaSrc={mediaContent.mediaSrc}
         bgImageSrc={mediaContent.bgImageSrc}
@@ -163,7 +163,7 @@ export function ProjectShowcaseSection() {
             </div>
           </motion.div>
         </div>
-      </ScrollExpandMedia>
+      </ScrollExpandMediaGSAP>
     </section>
   );
 }
